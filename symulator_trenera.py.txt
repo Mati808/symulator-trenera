@@ -1,0 +1,73 @@
+import random 
+
+def main_menu():
+    print("=== Symulator Trenera Piłkarskiego ===")
+    print("1. Rozpocznij mecz")
+    print("2. Zobacz skład drużyny")
+    print("3. Wyjdź z gry")
+
+    choice = input("Wybierz opcję (1-3): ")
+    return choice
+
+def display_team(team):
+    print("\nTwoja drużyna:")
+    for i, player in enumerate(team, start=1):
+        print(f"{i}. {player['name']} - Umiejętności: {player['skill']}")
+    print()
+
+def start_match(team):
+    print("\n=== Rozpoczynamy mecz! ===")
+    opponent_skill = random.randint(50, 100)
+    team_skill = sum(player['skill'] for player in team) // len(team)
+
+    print(f"Średni poziom twojej drużyny: {team_skill}")
+    print(f"Poziom przeciwnika: {opponent_skill}")
+
+    decision = input("Czy chcesz zagrać ofensywnie (O) czy defensywnie (D)? ").lower()
+    if decision == 'o':
+        team_skill += 5
+    elif decision == 'd':
+        team_skill -= 5
+
+    print("\nGrasz...")
+    match_result = team_skill + random.randint(-10, 10) - opponent_skill
+
+    if match_result > 0:
+        print("Gratulacje! Wygraliście mecz!")
+    elif match_result < 0:
+        print("Przegraliście mecz. Więcej szczęścia następnym razem.")
+    else:
+        print("Remis! Dobry wynik.")
+    print()
+
+# Przygotowanie drużyny
+def create_team():
+    names = ["Kowalski", "Nowak", "Lewandowski", "Zieliński", "Piątek", "Szczęsny", "Glik", "Bednarek", "Bereszyński", "Krychowiak"]
+    team = []
+    for name in names:
+        player = {
+            'name': name,
+            'skill': random.randint(60, 100)
+        }
+        team.append(player)
+    return team
+
+# Główna pętla gry
+def main():
+    team = create_team()
+
+    while True:
+        choice = main_menu()
+
+        if choice == '1':
+            start_match(team)
+        elif choice == '2':
+            display_team(team)
+        elif choice == '3':
+            print("\nDzięki za grę! Do zobaczenia.")
+            break
+        else:
+            print("Nieprawidłowa opcja. Spróbuj ponownie.\n")
+
+if __name__ == "__main__":
+    main()
